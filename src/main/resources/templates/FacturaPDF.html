@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap">
+    <style>
+        body {
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #3d3c3c;
+        }
+
+        .header {
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            text-align: right;
+        }
+
+        .current-date {
+            font-size: 12px;
+            color: #888;
+        }
+
+        th {
+            font-weight: 400;
+        }
+
+        table {
+            font-size: 16px;
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+            table-layout: fixed;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+            overflow: hidden;
+        }
+
+        .th-white {
+            background-color: white;
+        }
+
+        .th-altern {
+            background-color: #f2f2f2;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .customer-info {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .customer-info p {
+            margin: 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .margin-right {
+            margin-right: 100px;
+            /* Adjust as needed */
+        }
+
+        .equipment-info {
+            width: 100%;
+            margin: 20px auto;
+        }
+
+        .info-row {
+            width: 100%;
+            clear: both;
+            margin-bottom: 10px;
+        }
+
+        .info-row div {
+            width: 32%;
+            float: left;
+        }
+
+        .info-row h1 {
+            clear: both;
+            /* Clear the float for h1 */
+            width: 100%;
+            /* Full width for h1 */
+            margin-top: 20px;
+            /* Adjust as needed */
+        }
+
+        .info-row .info-row-second label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .margin-40 {
+            margin-right: 40px;
+            /* Adjust as needed */
+        }
+
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        /* Apply the clearfix class after the .info-row containing your <h1> */
+        .info-row-hvac-report {
+            width: 100%;
+            margin-bottom: 10px;
+            clear: both;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        .border {
+            border: 1px solid #000;
+            /* Add the desired border style */
+        }
+
+        .alinear-derecha {
+            float: right;
+            margin-right: 20px;
+        }
+
+        .bold-text {
+            font-weight: bold;
+        }
+
+        .normal-weight {
+            font-weight: normal;
+            /* Add your preferred font weight here */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <p th:text="${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}"></p>
+    </div>
+    <img src="../pdf/images/diazcomfort.png" height="150" width="100%" />
+    <span style="margin-bottom: 20px;"><strong>520-991-7754 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
+            Luis@Diazcomfortair.com</strong></span>
+    <div class="customer-info" style="margin-bottom: 30px;">
+        <p>
+            <span style="font-weight: bold;">Technician:</span>
+            <span th:text="${user}"></span>
+        </p>
+    </div>
+    <div class="customer-info" style="margin-bottom: 50px;">
+        <p style="margin-bottom: 10px;">
+            <span style="font-weight: bold;">Customer:</span>
+            <span class="margin-right" th:text="${pmCheck.customer}"></span>
+            <span style="font-weight: bold;">Address:</span>
+            <span th:text="${pmCheck.address}"></span>
+
+        </p>
+    </div>
+
+    <div th:each="pmForm, iterStat : ${pmForms}" style="margin-bottom: 10px;">
+
+        <div class="equipment-info">
+            <div class="info-row">
+                <div style="margin-bottom: 10px;">
+                    <label for="tonnage">Tonnage:</label>
+                    <p th:text="${pmForm.tonnage}"></p>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <label for="type">Type:</label>
+                    <p th:text="${pmForm.type}"></p>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <label for="age">Age:</label>
+                    <p th:text="${pmForm.age}"></p>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <label for="model">Furnance M#:</label>
+                    <p th:text="${pmForm.modelFurnance}"></p>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <label for="model">Evaporator Coil M#:</label>
+                    <p th:text="${pmForm.modelEvaporatorCoil}"></p>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <label for="model">Condenser M#:</label>
+                    <p th:text="${pmForm.modelCondenser}"></p>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <label for="model">Package Unit M#:</label>
+                    <p th:text="${pmForm.modelPackageUnit}"></p>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <label for="model">Refrigerant Type:</label>
+                    <p th:text="${pmForm.refrigerantType}"></p>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <label for="brand">Brand:</label>
+                    <p th:text="${pmForm.brand}"></p>
+                </div>
+            </div>
+        </div>
+        <div class="info-row info-row-hvac-report clearfix">
+
+            <h1>HVAC Check Report</h1>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Checked</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tr>
+                <th>1.- Power System off</th>
+                <td>
+                    <input type="checkbox" readonly th:checked="${pmForm.checkPowerSystem}" disabled>
+                </td>
+                <td>
+                    <p th:text="${#strings.toLowerCase(pmForm.checkPowerSystemRate)}"></p>
+                </td>
+            </tr>
+            <tr>
+                <th class="th-altern">2.- Check Motors.</th>
+                <td class="th-altern">
+                    <input type="checkbox" readonly th:checked="${pmForm.checkMotors}" disabled>
+                </td>
+                <td class="th-altern">
+                    <p th:text="${#strings.toLowerCase(pmForm.checkMotorsRate)}"></p>
+                </td>
+            </tr>
+            <tr>
+                <th>3.- Check capacitors.</th>
+                <td>
+                    <input type="checkbox" readonly th:checked="${pmForm.checkCapacitors}" disabled>
+                </td>
+                <td>
+                    <p th:text="${#strings.toLowerCase(pmForm.checkCapacitorsRate)}"></p>
+                </td>
+            </tr>
+            <tr>
+                <th class="th-altern">4.- Inspect Contactor.</th>
+                <td class="th-altern">
+                    <input type="checkbox" readonly th:checked="${pmForm.inspectContactor}" disabled>
+                </td>
+                <td class="th-altern">
+                    <p th:text="${#strings.toLowerCase(pmForm.inspectContactorRate)}"></p>
+                </td>
+            </tr>
+            <tr>
+                <th>5.- Inspect evaporation coil.</th>
+                <td>
+                    <input type="checkbox" readonly th:checked="${pmForm.inspectEvapCoil}" disabled>
+                </td>
+                <td>
+                    <p th:text="${#strings.toLowerCase(pmForm.inspectEvapCoilRate)}"></p>
+                </td>
+            </tr>
+            <!-- <tr>
+            <th class="th-altern">6.- Power unit on.</th>
+            <td class="th-altern">
+                <input type="checkbox" readonly th:checked="${pmCheck.powerUnitOn}" disabled>
+            </td>
+            <td class="th-altern">
+                <p th:text="${#strings.toLowerCase(pmCheck.powerUnitOnRate)}"></p>
+            </td>
+        </tr> -->
+            <!-- <tr>
+            <th>6.-Turn system on cool mode.</th>
+            <td>
+                <input type="checkbox" readonly th:checked="${pmCheck.turnSystemCoolMode}" disabled>
+            </td>
+            <td>
+                <p th:text="${#strings.toLowerCase(pmCheck.turnSystemCoolModeRate)}"></p>
+            </td>
+        </tr> -->
+            <tr>
+                <th class="th-altern">6.- Check refrigerant pipes and pressures</th>
+                <td class="th-altern">
+                    <input type="checkbox" readonly th:checked="${pmForm.checkRefrigerant}" disabled>
+                </td>
+                <td class="th-altern">
+                    <p th:text="${#strings.toLowerCase(pmForm.checkRefrigerantRate)}"></p>
+                </td>
+            </tr>
+            <tr>
+                <th>7.- Clean condensate coil.</th>
+                <td>
+                    <input type="checkbox" readonly th:checked="${pmForm.cleanCondensateCoil}" disabled>
+                </td>
+                <td>
+                    <p th:text="${#strings.toLowerCase(pmForm.cleanCondensateCoilRate)}"></p>
+                </td>
+            </tr>
+            <tr>
+                <th class="th-altern">8.- Clear condensate pipe.</th>
+                <td class="th-altern">
+                    <input type="checkbox" readonly th:checked="${pmForm.cleanCondensatePipe}" disabled>
+                </td>
+                <td class="th-altern">
+                    <p th:text="${#strings.toLowerCase(pmForm.cleanCondensatePipeRate)}"></p>
+                </td>
+            </tr>
+            <tr>
+                <th>9.- Inspect High and Low Voltage Wiring.</th>
+                <td>
+                    <input type="checkbox" readonly th:checked="${pmForm.takePictures}" disabled>
+                </td>
+                <td>
+                    <p th:text="${#strings.toLowerCase(pmForm.takePicturesRate)}"></p>
+                </td>
+            </tr>
+            <tr>
+                <th class="th-altern">10.- Check Belts.</th>
+                <td class="th-altern">
+                    <input type="checkbox" readonly th:checked="${pmForm.checkBelts}" disabled>
+                </td>
+                <td class="th-altern">
+                    <p th:text="${#strings.toLowerCase(pmForm.checkBeltsRate)}"></p>
+                </td>
+            </tr>
+            <tr>
+                <th>11.- Check Duct Work.</th>
+                <td>
+                    <input type="checkbox" readonly th:checked="${pmForm.checkDuctWork}" disabled>
+                </td>
+                <td>
+                    <p th:text="${#strings.toLowerCase(pmForm.checkDuctWorkRate)}"></p>
+                </td>
+            </tr>
+            <tr class="th-altern">
+                <th>12.- Check Thermostat.</th>
+                <td>
+                    <input type="checkbox" readonly th:checked="${pmForm.checkThermostat}" disabled>
+                </td>
+                <td>
+                    <p th:text="${#strings.toLowerCase(pmForm.checkThermostatRate)}"></p>
+                </td>
+            </tr>
+            <tr>
+                <th>13.- Check Amps.</th>
+                <td>
+                    <input type="checkbox" readonly th:checked="${pmForm.checkAmps}" disabled>
+                </td>
+                <td>
+                    <p th:text="${#strings.toLowerCase(pmForm.checkAmpsRate)}"></p>
+                </td>
+            </tr>
+            <tr class="th-altern">
+                <th>14.- Split Temperature.</th>
+                <td>
+                    <input type="checkbox" readonly th:checked="${pmForm.splitTemperature}" disabled>
+                </td>
+                <td>
+                    <p th:text="${#strings.toLowerCase(pmForm.splitTemperatureRate)}"></p>
+                </td>
+            </tr>
+            <tr>
+                <th>15.- Air Filters.</th>
+                <td>
+                    <input type="checkbox" readonly th:checked="${pmForm.airFilters}" disabled>
+                </td>
+                <td>
+                    <p th:text="${#strings.toLowerCase(pmForm.airFiltersRate)}"></p>
+                </td>
+            </tr>
+            <tr class="th-altern">
+                <th>16.- Check Fuses.</th>
+                <td>
+                    <input type="checkbox" readonly th:checked="${pmForm.checkFuses}" disabled>
+                </td>
+                <td>
+                    <p th:text="${#strings.toLowerCase(pmForm.checkFusesRate)}"></p>
+                </td>
+            </tr>
+            <tr>
+                <th>17.- Unit Operation Status.</th>
+                <td>
+                    <input type="checkbox" readonly th:checked="${pmForm.unitOperationStatus}" disabled>
+                </td>
+                <td>
+                    <p th:text="${#strings.toLowerCase(pmForm.unitOperationStatusRate)}"></p>
+                </td>
+            </tr>
+        </table>
+        <h4 class="customer-label" style="text-align: left;">Notes:</h4>
+        <textarea cols="5" rows="4" class="border" style="text-align: left;"
+            th:text="${#strings.replace(pmForm.notes, '\n', '&#10;')}"></textarea>
+        <h4 class="customer-label" style="text-align: left;">Images:</h4>
+        <div th:each="image : ${pmForm.images}">
+            <img th:src="${image.url}" alt="Image" style="width: 50%;" />
+        </div>
+        <hr>
+        <div style="margin-bottom: 20px;"></div>
+    </div>
+    <hr>
+    <div class="info-row">
+        <h4 class="alinear-derecha">
+            <span class="bold-text">Total Inspection Fee: </span>
+            <span class="normal-weight" th:text="' $'+${pmCheck.inspectionFee}"></span>
+        </h4>
+    </div>
+    <div class="info-row">
+        <h4 class="alinear-derecha" style="margin-top: -20px;">
+            <span class="bold-text">Recommendation Total Price: </span>
+            <span class="normal-weight" th:text="' $'+${pmCheck.recomendationTotalPrice}"></span>
+        </h4>
+    </div>
+    <div class="footer info-row" style="margin-top: 40px;">
+        <p>This report was generated by DiazComfort PM Check System.</p>
+        <img src="../pdf/images/thankyou.png" width="75%" />
+
+    </div>
+</body>
+
+</html>
