@@ -18,6 +18,7 @@ import com.diazcomfort.backend.entity.PMImage;
 import com.diazcomfort.backend.repository.ImageRepository;
 import com.diazcomfort.backend.services.interfaces.IImageService;
 import com.diazcomfort.backend.helpers.PMFormServiceHandler;
+import com.diazcomfort.backend.helpers.Utils;
 
 @Service
 public class ImageService implements IImageService {
@@ -26,16 +27,18 @@ public class ImageService implements IImageService {
     private final PMFormServiceHandler pmFormServiceHandler;
     private final Logger logger = LoggerFactory.getLogger(ImageService.class);
     private final String folder = "/opt/images/";
-    //private final String folder = "C:/images/";
+    private final Utils utils;
+    // private final String folder = "C:/images/";
 
-    public ImageService(ImageRepository imageRepository, PMFormServiceHandler pmFormServiceHandler) {
+    public ImageService(ImageRepository imageRepository, PMFormServiceHandler pmFormServiceHandler, Utils utils) {
         this.imageRepository = imageRepository;
         this.pmFormServiceHandler = pmFormServiceHandler;
+        this.utils = utils;
     }
 
     @Override
     public PMImage guardarImagen(MultipartFile imagen, String pmcheckId) {
-        logger.info("IMAGE SERVICE 38");
+        logger.info("Image Service - Guardando imagen");
         UUID uuid = UUID.randomUUID();
         String extension = "-" + imagen.getOriginalFilename();
         Optional<PMForm> PMForm = pmFormServiceHandler.verifyExistence(UUID.fromString(pmcheckId));
@@ -48,6 +51,9 @@ public class ImageService implements IImageService {
         byte[] bytes;
         try {
             bytes = imagen.getBytes();
+            String formatName = utils.obtenerFormato(imagen.getContentType());
+            bytes = utils.compressImage(bytes, formatName);
+            // Print size after compression
             Path path = Paths.get(folder + uuid + extension);
             Files.write(path, bytes);
         } catch (IOException e) {
@@ -59,7 +65,7 @@ public class ImageService implements IImageService {
 
     @Override
     public void deleteImage(UUID PMImageId) {
-         Optional<PMImage> PMImage = imageRepository.findById(PMImageId);
+        Optional<PMImage> PMImage = imageRepository.findById(PMImageId);
         if (!PMImage.isPresent()) {
             logger.error("ImageService PMImage with that id doesn´t exist");
             throw new RuntimeException("PMImage with that id doesn´t exist");
@@ -67,9 +73,9 @@ public class ImageService implements IImageService {
         imageRepository.deleteById(PMImageId);
         File file = new File(folder + PMImage.get().getUrl().split("/")[4]);
         if (file.delete()) {
-           logger.info(file.getName() + " is deleted!");
+            logger.info(file.getName() + " is deleted!");
         } else {
-           logger.info("Delete Operation failed");
+            logger.info("Delete Operation failed");
         }
     }
 
